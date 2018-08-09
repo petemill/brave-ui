@@ -14,6 +14,7 @@ import Tabs from './layout/tabs'
 import TextArea from './formControls/textarea'
 import Toggle from './formControls/toggle'
 import { Grid, Column } from './layout/gridList'
+import Heading from './text/heading'
 
 export {
   ButtonCta,
@@ -23,6 +24,7 @@ export {
   Checkbox,
   Column,
   Grid,
+  Heading,
   Modal,
   Select,
   Table,
