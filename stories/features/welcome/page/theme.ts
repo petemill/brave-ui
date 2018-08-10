@@ -14,12 +14,16 @@ const theme = {
   },
   panel: {
     backgroundColor: 'rgba(255,255,255,0.95)',
+    borderRadius: '20px',
+    boxShadow: '0 6px 12px 0 rgba(39, 46, 64, 0.2)',
     maxWidth: '600px',
-    height: '660px',
+    minHeight: '660px',
+    padding: '60px'
+  },
+  panelWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    padding: '60px'
+    minHeight: '540px'
   },
   braveLogo: {
     width: '120px'
