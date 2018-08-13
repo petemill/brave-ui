@@ -3,45 +3,43 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import styled from 'styled-components'
-import { HeadingProps } from './index'
-import { setTheme } from '../../../helpers'
 
-// All feature-based text inherits from StyledSharedHeading
-// which excludes normal h1...h6 headings
 const StyledSharedHeading = styled.span`
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
+  margin: 0;
 ` as any
 
 const StyledH1 = StyledSharedHeading.withComponent('h1').extend`
-  color: ${(p: HeadingProps) => setTheme(p.theme, 'color') || '#4b4c5c'};
-  margin: ${(p: HeadingProps) => setTheme(p.theme, 'margin') || '0'};
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
+  font-size: 48px;
 `
 
 const StyledH2 = StyledSharedHeading.withComponent('h2').extend`
-  color: ${(p: HeadingProps) => setTheme(p.theme, 'color') || '#4b4c5c'};
-  margin: ${(p: HeadingProps) => setTheme(p.theme, 'margin') || '20px 0 10px'};
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1.27;
-  letter-spacing: normal;
+  font-size: 38px;
 `
 
 const StyledH3 = StyledSharedHeading.withComponent('h3').extend`
-  color: ${(p: HeadingProps) => setTheme(p.theme, 'color') || '#4b4c5c'};
-  margin: ${(p: HeadingProps) => setTheme(p.theme, 'margin') || '0'};
+  font-size: 28px;
+`
+
+const StyledH4 = StyledSharedHeading.withComponent('h4').extend`
+  font-size: 22px;
+`
+
+const StyledH5 = StyledSharedHeading.withComponent('h5').extend`
   font-size: 16px;
-  font-weight: 500;
-  line-height: 1.5;
-  letter-spacing: normal;
+`
+
+const StyledH6 = StyledSharedHeading.withComponent('h6').extend`
+  font-size: 14px;
 `
 
 export {
   StyledH1,
   StyledH2,
-  StyledH3
+  StyledH3,
+  StyledH4,
+  StyledH5,
+  StyledH6
 }
