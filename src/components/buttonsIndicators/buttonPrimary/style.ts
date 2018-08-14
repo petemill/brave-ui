@@ -5,24 +5,56 @@
 import styled, { css, ThemedStyledProps } from '../../../theme'
 import { Props } from './index'
 
-function largeMediumSmall (largeValue: any, mediumValue: any, smallValue: any) {
-  return (p: Props) => p.size === 'large' ? largeValue : p.size === 'medium' ? mediumValue : smallValue
+function largeMediumSmall (largeValue: any, mediumValue: any, smallValue: any, ctaValue?: any) {
+  return (p: Props) => {
+    switch (p.size) {
+      case 'large':
+        return largeValue
+      case 'medium':
+        return mediumValue
+      case 'small':
+        return smallValue
+      case 'call-to-action':
+        return (ctaValue == null) ? largeValue : ctaValue
+    }
+  }
 }
 
-const getThemedCss = (p: ThemedStyledProps<Props>) => {
+const getThemeColors = (p: ThemedStyledProps<Props>) => {
   let mainColor
   let hoverColor
   let activeColor
   if (p.disabled) {
     mainColor = hoverColor = activeColor = p.theme.color.disabled
-  } else if (p.color === 'brand') {
-    mainColor = p.theme.color.brandBrave
-    hoverColor = p.theme.color.brandBraveInteracting
-    activeColor = p.theme.color.brandBraveActive
-  } else if (p.color === 'action') {
-    mainColor = p.theme.color.brandBat
-    hoverColor = p.theme.color.brandBatInteracting
-    activeColor = p.theme.color.brandBatActive
+  } else {
+    switch (p.type) {
+      case 'accent':
+        if (p.brand === 'brave') {
+          mainColor = p.theme.color.brandBrave
+          hoverColor = p.theme.color.brandBraveInteracting
+          activeColor = p.theme.color.brandBraveActive
+        } else if (p.brand === 'rewards') {
+          mainColor = p.theme.color.brandBat
+          hoverColor = p.theme.color.brandBatInteracting
+          activeColor = p.theme.color.brandBatActive
+        }
+        break
+      case 'basic':
+        mainColor = p.theme.color.basicControl
+        hoverColor = p.theme.color.basicControlInteracting
+        activeColor = p.theme.color.basicControlActive
+        break
+      case 'warn':
+        mainColor = p.theme.color.warn
+        hoverColor = p.theme.color.warnInteracting
+        activeColor = p.theme.color.warnActive
+        break
+      case 'subtle':
+        mainColor = p.theme.color.subtle
+        hoverColor = p.theme.color.subtleInteracting
+        activeColor = p.theme.color.subtleActive
+        break
+    }
   }
   return css`
     --button-main-color: ${mainColor};
@@ -31,10 +63,14 @@ const getThemedCss = (p: ThemedStyledProps<Props>) => {
   `
 }
 
-export const StyledButton = styled<Props, 'button'>('button')`
-  ${getThemedCss}
+const StyledButton = styled<Props, 'button'>('button')`
+  ${getThemeColors}
+  --button-state-color: var(--button-main-color);
+  --icon-size: ${largeMediumSmall('18px', '16px', '14px')};
+  --icon-spacing: ${largeMediumSmall('6px', '6px', '6px')};
   --webkit-appearance: none;
-  box-sizing: content-box;
+  box-sizing: border-box;
+  background: none;
   border: none;
   outline: none;
   display: flex;
@@ -45,36 +81,52 @@ export const StyledButton = styled<Props, 'button'>('button')`
   cursor: ${p => p.disabled ? 'default' : 'pointer'};
   user-select: none;
   font-size: ${largeMediumSmall('14px', '13px', '11px')};
-  border-radius: ${largeMediumSmall('24px', '20px', '16px')};
-  min-width: ${largeMediumSmall('86px', '84px', '68px')};
-  padding: ${largeMediumSmall('14px 15px', '11px 10px', '7px 10px')};
-  min-height: 18px;
-  color: #fff;
-  background: var(--button-main-color);
+  border-radius: ${largeMediumSmall('24px', '20px', '16px', '28px')};
+  width: ${p => p.size === 'call-to-action' ? '100%' : 'auto'};
+  min-width: ${largeMediumSmall('116px', '104px', '88px', '235px')};
+  padding: ${largeMediumSmall('14px 15px', '11px 10px', '7px 10px', '19px 15px')};
   :hover:enabled {
-    background: var(--button-main-color-hover);
+    --button-state-color: var(--button-main-color-hover);
   }
   :active:enabled {
-    background: var(--button-main-color-active);
+    --button-state-color: var(--button-main-color-active);
   }
-` as any
+`
 
-export const StyledText = styled.div`
+export default StyledButton
+
+export const PrimaryButton = StyledButton.extend`
+  color: #fff;
+  background: var(--button-state-color);
+`
+
+export const SecondaryButton = StyledButton.extend`
+  border: 1px solid;
+  color: var(--button-state-color);
+`
+
+export const TertiaryButton = StyledButton.extend`
+  color: var(--button-state-color);
+`
+
+export const StyledText = styled<Props, 'div'>('div')`
+  /* min-height so that we get consistent height with / without an icon */
+  min-height: var(--icon-size);
+  display: flex;
+  align-items: center;
   text-align: center;
-  box-sizing: border-box;
   letter-spacing: 0;
   font-weight: 600;
+  text-transform: ${p => p.size === 'call-to-action' ? 'uppercase' : 'none'};
   line-height: 1;
-` as any
+`
 
-export const StyledIcon = styled.div`
-  --icon-size: ${largeMediumSmall('18px', '16px', '14px')};
-  --icon-spacing: ${largeMediumSmall('6px', '6px', '6px')};
+export const StyledIcon = styled<Props, 'div'>('div')`
   display: block;
   line-height: 0;
   height: var(--icon-size);
   width: var(--icon-size);
-  margin: ${(p: Props) => {
+  margin: ${(p) => {
     // no margin required if only 1 content item
     if (!p.text || !p.icon) return null
     // -4px is a universal 'fix' to make the icons appear more aligned
@@ -83,4 +135,4 @@ export const StyledIcon = styled.div`
     // and designers can address in icons, or accept the alignment.
     return p.icon.position === 'left' ? '0 var(--icon-spacing) 0 -4px' : '0 -4px 0 var(--icon-spacing)'
   }};
-` as any
+`

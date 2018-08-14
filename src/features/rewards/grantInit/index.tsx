@@ -21,7 +21,7 @@ export default class GrantInit extends React.PureComponent<Props, {}> {
     return (
       <StyledWrapper id={id}>
         <div>
-          <ButtonPrimary text={getLocale('accept')} size={'medium'} color={'brand'} onClick={onAccept}/>
+          <ButtonPrimary text={getLocale('accept')} size={'medium'} onClick={onAccept}/>
         </div>
         <ButtonGhost text={getLocale('maybeLater')} size={'large'} color={'brand'} onClick={onLater}/>
       </StyledWrapper>

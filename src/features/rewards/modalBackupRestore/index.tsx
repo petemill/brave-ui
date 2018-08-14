@@ -9,13 +9,14 @@ import {
   StyledImport,
   StyleButtonWrapper,
   StyledActionsWrapper,
-  StyledDoneWrapper
+  StyledDoneWrapper,
+  GroupedButton,
+  ActionButton
 } from './style'
 import Tabs from '../../../components/layout/tabs/index'
 import TextArea from '../../../components/formControls/textarea/index'
 import Modal from '../../../components/popupModals/modal/index'
-import ButtonPrimary from '../../../components/buttonsIndicators/buttonPrimary/index'
-import ButtonSecondary from '../../../components/buttonsIndicators/buttonSecondary/index'
+import Button from '../../../components/buttonsIndicators/buttonPrimary'
 import { getLocale } from '../../../helpers'
 
 export type TabsType = 'backup' | 'restore'
@@ -69,30 +70,33 @@ export default class ModalBackupRestore extends React.PureComponent<Props, {}> {
               disabled={true}
             />
             <StyleButtonWrapper>
-              <ButtonSecondary
+              <GroupedButton
                 text={getLocale('copy')}
+                level={'secondary'}
                 size={'small'}
-                color={'subtle'}
+                type={'subtle'}
                 onClick={onCopy.bind(this, recoveryKey)}
               />
-              <ButtonSecondary
+              <GroupedButton
                 text={getLocale('print')}
+                level={'secondary'}
                 size={'small'}
-                color={'subtle'}
+                type={'subtle'}
                 onClick={onPrint.bind(this, recoveryKey)}
               />
-              <ButtonSecondary
+              <GroupedButton
                 text={getLocale('saveAsFile')}
+                level={'secondary'}
                 size={'small'}
-                color={'subtle'}
+                type={'subtle'}
                 onClick={onSaveFile.bind(this, recoveryKey)}
               />
             </StyleButtonWrapper>
             <StyledDoneWrapper>
-              <ButtonPrimary
+              <Button
                 text={getLocale('done')}
+                level={'secondary'}
                 size={'medium'}
-                color={'brand'}
                 onClick={onClose}
               />
             </StyledDoneWrapper>
@@ -114,16 +118,18 @@ export default class ModalBackupRestore extends React.PureComponent<Props, {}> {
               defaultValue={''}
             />
             <StyledActionsWrapper>
-              <ButtonSecondary
+              <ActionButton
+                level={'secondary'}
                 text={getLocale('cancel')}
                 size={'medium'}
-                color={'brand'}
+                type={'accent'}
                 onClick={onClose}
               />
-              <ButtonPrimary
+              <ActionButton
+                level={'primary'}
+                type={'accent'}
                 text={getLocale('restore')}
                 size={'medium'}
-                color={'brand'}
                 onClick={onRestore.bind(this, recoveryKey)}
               />
             </StyledActionsWrapper>

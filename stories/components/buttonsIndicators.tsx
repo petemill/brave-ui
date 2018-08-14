@@ -34,8 +34,10 @@ storiesOf('Components/Buttons & Indicators/Buttons', module)
 
     return (
       <ButtonPrimary
-        color={select('Color', { brand: 'brand', action: 'action' }, 'brand')}
-        size={select('Size', { large: 'large', medium: 'medium', small: 'small' }, 'medium')}
+        level={select('Level', { primary: 'Primary', secondary: 'Secondary', tertiary: 'Tertiary' }, 'primary')}
+        type={select('Type', ['basic', 'accent', 'warn', 'subtle'], 'basic')}
+        brand={select('Brand', ['brave', 'rewards'], 'brave')}
+        size={select('Size', { large: 'large', medium: 'medium', small: 'small', ['call-to-action']: 'Call To Action' }, 'medium')}
         text={'Button'}
         disabled={boolean('Disabled', false)}
         icon={icon}
